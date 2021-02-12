@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
+        accentColor: Colors.white,
         primarySwatch: Colors.blue,
         primaryColor: Colors.black,
         visualDensity: VisualDensity.adaptivePlatformDensity,

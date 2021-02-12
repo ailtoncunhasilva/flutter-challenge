@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_estatetiel/widgets/mission_detail.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -42,6 +43,15 @@ class _HomePageState extends State<HomePage> {
                   topLeft: Radius.circular(20),
                   topRight: Radius.circular(20),
                 ),
+              ),
+              child: ListView(
+                children: [
+                  MissionDetail(),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 6, right: 6),
+                    child: Divider(),
+                  ),
+                ],
               ),
             ),
           ),

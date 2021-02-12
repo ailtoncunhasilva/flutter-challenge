@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_estatetiel/widgets/mission_detail.dart';
+import 'package:flutter_estatetiel/screens/launches.dart';
+import 'package:flutter_estatetiel/screens/rockets.dart';
+import 'package:flutter_estatetiel/screens/upcoming.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -7,6 +9,27 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  PageController _pageController;
+  int _page = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _pageController = PageController();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+
+    super.dispose();
+  }
+
+  final TextStyle style = TextStyle(
+    fontWeight: FontWeight.bold,
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,13 +44,46 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 16),
+            padding: const EdgeInsets.only(right: 10),
             child: IconButton(
               icon: Icon(Icons.search),
               onPressed: () {},
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: Theme(
+        data: Theme.of(context).copyWith(
+          canvasColor: Colors.pink[50],
+          primaryColor: Colors.pink,
+          textTheme: Theme.of(context).textTheme.copyWith(
+                caption: TextStyle(
+                  color: Colors.grey,
+                ),
+              ),
+        ),
+        child: BottomNavigationBar(
+          elevation: 8,
+          currentIndex: _page,
+          onTap: (p) {
+            _pageController.animateToPage(
+              p,
+              duration: Duration(milliseconds: 200),
+              curve: Curves.ease,
+            );
+          },
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.remove),
+              title: Text('Upcoming', style: style),
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.remove),
+                title: Text('Launches', style: style)),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.remove), title: Text('Rockets', style: style)),
+          ],
+        ),
       ),
       body: Column(
         children: [
@@ -44,13 +100,17 @@ class _HomePageState extends State<HomePage> {
                   topRight: Radius.circular(20),
                 ),
               ),
-              child: ListView(
+              child: PageView(
+                onPageChanged: (p){
+                  setState(() {
+                    _page = p;
+                  });
+                },
+                controller: _pageController,
                 children: [
-                  MissionDetail(),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 6, right: 6),
-                    child: Divider(),
-                  ),
+                  Upcoming(),
+                  Launches(),
+                  Rockets(),
                 ],
               ),
             ),
